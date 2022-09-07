@@ -39,6 +39,7 @@ app.get('/products/:id', (req, res) => {
 	Product.findById(req.params.id, (err, foundProduct) => {
 		res.render('show.ejs', {
 			product: foundProduct,
+            //document.getElemenyById("purchase").addEventListener("click", subtract(){product.qty -1;})
 		});
 	});
 });
