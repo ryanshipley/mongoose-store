@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true}));
 
 app.post("/products", (req, res)=>{
     Product.create(req.body, (error, createdProduct)=>{
-        res.send(createdProduct);
+        res.redirect("/products");
     });
 });
 
@@ -30,6 +30,9 @@ app.get("/products", (req, res)=>{
     });
 });
 
+app.get('/products/new', (req, res) => {
+	res.render('new.ejs');
+});
 
 // Show
 app.get('/products/:id', (req, res) => {
