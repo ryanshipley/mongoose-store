@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const { find } = require("./models/products");
 require('dotenv').config();
 const Product = require("./models/products");
 
@@ -29,6 +28,16 @@ app.get("/products", (req, res)=>{
         products : allProducts,
         });
     });
+});
+
+
+// Show
+app.get('/products/:id', (req, res) => {
+	Product.findById(req.params.id, (err, foundProduct) => {
+		res.render('show.ejs', {
+			product: foundProduct,
+		});
+	});
 });
 
 const PORT = process.env.PORT;
