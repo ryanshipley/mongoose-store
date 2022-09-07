@@ -46,7 +46,7 @@ app.put("/products/:id", (req, res) => {
 		new: true,
 	  },
 	  (error, updatedProduct) => {
-		res.redirect(`/products/${req.params.id}`)
+		res.redirect(`/products/${req.params.id}`);
 	  }
 	)
   })
