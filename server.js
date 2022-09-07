@@ -37,12 +37,21 @@ app.delete("/products/:id", (req, res) => {
 	})
 })
 
+// Create
 app.post("/products", (req, res)=>{
     Product.create(req.body, (error, createdProduct)=>{
         res.redirect("/products");
     });
 });
 
+// Edit
+app.get("/products/:id/edit", (req, res) => {
+	Product.findById(req.params.id, (error, foundProduct) => {
+	  res.render("edit.ejs", {
+		product: foundProduct,
+	  })
+	})
+  })
 
 
 // Show
