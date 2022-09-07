@@ -33,9 +33,24 @@ app.get('/products/new', (req, res) => {
 // Delete
 app.delete("/products/:id", (req, res) => {
 	Product.findByIdAndDelete(req.params.id, (err, data) => {
-		res.redirect("/products")
-	})
-})
+		res.redirect("/products");
+	});
+});
+
+// Update
+app.put("/products/:id", (req, res) => {  
+	Product.findByIdAndUpdate(
+	  req.params.id,
+	  req.body,
+	  {
+		new: true,
+	  },
+	  (error, updatedProduct) => {
+		res.redirect(`/products/${req.params.id}`)
+	  }
+	)
+  })
+
 
 // Create
 app.post("/products", (req, res)=>{
@@ -49,9 +64,9 @@ app.get("/products/:id/edit", (req, res) => {
 	Product.findById(req.params.id, (error, foundProduct) => {
 	  res.render("edit.ejs", {
 		product: foundProduct,
-	  })
-	})
-  })
+	  });
+	});
+  });
 
 
 // Show
