@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config();
 const Product = require("./models/products");
+const methodOverride = require("method-override");
 
 const db = mongoose.connection
 mongoose.connect(process.env.DATABASE_URL, {
@@ -15,6 +16,26 @@ db.on('connected', () => console.log('mongo connected'));
 db.on('disconnected', () => console.log('mongo disconnected'));
 
 app.use(express.urlencoded({ extended: true}));
+app.use(methodOverride("_method"));
+
+app.get("/products", (req, res)=>{
+    Product.find({}, (error, allProducts)=>{
+        res.render("index.ejs", {
+            products : allProducts,
+        });
+    });
+});
+
+app.get('/products/new', (req, res) => {
+    res.render('new.ejs');
+});
+
+// Delete
+app.delete("/products/:id", (req, res) => {
+	Product.findByIdAndDelete(req.params.id, (err, data) => {
+		res.redirect("/products")
+	})
+})
 
 app.post("/products", (req, res)=>{
     Product.create(req.body, (error, createdProduct)=>{
@@ -22,17 +43,7 @@ app.post("/products", (req, res)=>{
     });
 });
 
-app.get("/products", (req, res)=>{
-    Product.find({}, (error, allProducts)=>{
-    res.render("index.ejs", {
-        products : allProducts,
-        });
-    });
-});
 
-app.get('/products/new', (req, res) => {
-	res.render('new.ejs');
-});
 
 // Show
 app.get('/products/:id', (req, res) => {
